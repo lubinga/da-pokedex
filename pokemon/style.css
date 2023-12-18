@@ -1,0 +1,72 @@
+body{
+    margin: 0;
+    color: #82849d;
+}
+
+h1, h2, h3{
+    color: #2e3057;
+    font-weight: 700;
+}
+
+ul{
+    color: #2e3057;
+    list-style-type: number;
+}
+
+.pokedex-container{
+    padding: 32px;
+}
+
+.pkm-id{
+    color: #2e3057;
+}
+
+.pkm-item-list{
+    margin: 0;
+}
+
+.pkm-list-item{
+    background-color: #C4E3D4;
+    padding: 24px;
+}
+
+.pkm-list-item:hover{
+    cursor: pointer;
+}
+
+.pkm-list-img{
+    max-height: 150px;
+}
+
+/* Pokemnon Detail */
+.pkm-overlay{
+    background-color: rgb(255, 255, 255);
+    min-height: 100vh;
+}
+
+.overlay-header::after{
+    content: ''; flex: 1
+}
+
+.back-arrow{
+    height: 25px;
+    width: auto;
+}
+
+.back-arrow:hover{
+    cursor: pointer;
+}
+
+.pokemon-detail-image{
+    width: 60%;
+}
+
+.nav-link{
+    color: #2e3057!important;
+}
+
+.nav-link.active,
+  .show > .nav-link{
+    background-color: unset!important;
+    font-weight: bolder!important;
+}
