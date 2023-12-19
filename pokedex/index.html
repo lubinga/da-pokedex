@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokèdex </title>
+
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+    <script src="./bootstrap.min.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/poke-list.js"></script>
+    <script src="./js/poke-detail.js"></script>
+
+</head>
+
+<body onload="init()">
+    <div class="pokedex-container">
+        <header>
+            <h1 class="font-weight-bold d-flex align-items-center gap-2">
+                <img class="header-image" src="./img/pokeball.svg">
+                Pokèdex
+            </h1>
+        </header>
+        <div class="d-flex flex-column gap-2">
+            <span>Search for a Pokemon by name</span>
+            <input id="search" type="text" placeholder="Type a Pokemon name for example: arcanine and hit enter">
+            <span id="search-message"></span>
+        </div>
+        <div class="mt-4">
+            <div id="pokedex"
+                class="pkm-item-list container-fluid row g-0 d-flex justify-content-between flex-wrap gap-3">
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <button onclick="loadPokemons()">More Pokemons</button>
+        </div>
+
+        <div id="modal" class="pkm-overlay container-fluid position-fixed fixed-top d-none">            
+        </div>
+    </div>
+
+    <footer class="w-100 d-flex justify-content-center pb-2">2023 Hannes Pirhofer</footer>
+    <script src="./js/search.js"></script>
+</body>
+
+</html>

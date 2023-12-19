@@ -11,5 +11,6 @@ input.addEventListener("keypress", function(event) {
 
 async function searchPokemon(pokemonName) {
     await getPokemonDetail(pokemonName);
+    input.value = '';
 }
 

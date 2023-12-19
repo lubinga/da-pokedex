@@ -21,6 +21,10 @@ ul{
     padding: 32px;
 }
 
+.header-image{
+    height: calc(1.375rem + 1.5vw);
+}
+
 .pkm-id{
     color: #2e3057;
 }
