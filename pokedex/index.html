@@ -11,11 +11,6 @@
     <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./style.css">
 
-    <script src="./bootstrap.min.js"></script>
-    <script src="./js/script.js"></script>
-    <script src="./js/poke-list.js"></script>
-    <script src="./js/poke-detail.js"></script>
-
 </head>
 
 <body onload="init()">
@@ -27,25 +22,40 @@
             </h1>
         </header>
         <div class="d-flex flex-column gap-2">
-            <span>Search for a Pokemon by name</span>
-            <input id="search" type="text" placeholder="Type a Pokemon name for example: arcanine and hit enter">
-            <span id="search-message"></span>
+            <span>Search for a Pokemon by name</span>            
+            <input id="search" type="text" placeholder="Type a Pokemon name and hit enter">
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="searchSwitch">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Please check if you want to search 
+                    for a Pokemon which is not currently loaded in the list below.<br>
+                    Type the full official name like: Arcanine</label>
+            </div>
+
+            <span id="error-message"></span>
+
         </div>
         <div class="mt-4">
+
             <div id="pokedex"
                 class="pkm-item-list container-fluid row g-0 d-flex justify-content-between flex-wrap gap-3">
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button onclick="loadPokemons()">More Pokemons</button>
+            <button id="morePokemons" onclick="loadPokemons()">More Pokemons</button>
         </div>
-
+        
         <div id="modal" class="pkm-overlay container-fluid position-fixed fixed-top d-none">            
         </div>
     </div>
 
     <footer class="w-100 d-flex justify-content-center pb-2">2023 Hannes Pirhofer</footer>
+
     <script src="./js/search.js"></script>
+    <script src="./bootstrap.min.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/poke-list.js"></script>
+    <script src="./js/poke-detail.js"></script>
 </body>
 
 </html>

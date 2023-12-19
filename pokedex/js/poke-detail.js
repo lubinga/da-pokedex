@@ -7,18 +7,26 @@ let moves = [];
 let baseExperience = null;
 let height = null;
 
-
-
 async function getPokemonDetail(pokemonName) {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
-    let response = await fetch(url);
-    let responseAsJson = await response.json();
+    try {
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        let responseAsJson = await response.json();
+        collectAbilities(responseAsJson);
+        collectTypes(responseAsJson);
+        collectMoves(responseAsJson);
+        collectOther(responseAsJson);
+        renderPokemonDetail();
+    } catch (error) {
+        // Display the error message on your HTML page
+        document.getElementById('error-message').innerHTML = `An error occured. Try again 
+        by typing exact the pokemon you want to search.`;
+    }
 
-    collectAbilities(responseAsJson);
-    collectTypes(responseAsJson);
-    collectMoves(responseAsJson);
-    collectOther(responseAsJson);
-    renderPokemonDetail();
+
 }
 
 function collectAbilities(responseAsJson) {
@@ -82,13 +90,13 @@ function renderPokemonDetail() {
     let content = document.getElementById('modal');
     content.innerHTML = '';
     content.innerHTML = /*HTML*/ `
-        ${renderDetailHeader()};
-        ${renderDetailBody()};        
+        ${renderDetailHeader()}
+        ${renderDetailBody()}       
     `;
     showModal();
 }
 
-function renderDetailHeader(){
+function renderDetailHeader() {
     return `
     <header class="d-flex overlay-header p-4 mt-4">
     <div class="flex-grow-1"><img onclick="hideModal()" class="back-arrow" src="./img/back.svg"></div>
@@ -99,7 +107,7 @@ function renderDetailHeader(){
 </header>`;
 }
 
-function renderDetailBody(){
+function renderDetailBody() {
     return `
     <div class="container-fluid mb-3">
     <div class="row">
