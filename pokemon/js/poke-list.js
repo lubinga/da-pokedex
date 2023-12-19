@@ -1,7 +1,7 @@
 let currentPokemons = [];
 let pokemonTotalCount = 0;
 let pokemonOffset = 0;
-let pokemonLimit = 40;
+let pokemonLimit = 20;
 
 async function loadPokemons() {
     let url = `https://pokeapi.co/api/v2/pokemon?offset=${pokemonOffset}&limit=${pokemonLimit}`;
@@ -11,7 +11,7 @@ async function loadPokemons() {
     let allPokemons = responseAsJson['results'];
     pokemonTotalCount = responseAsJson['count'];
 
-    pokemonOffset += pokemonLimit;   
+    pokemonOffset += pokemonLimit;
     getSinglePokemon(allPokemons);
 }
 

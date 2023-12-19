@@ -79,7 +79,7 @@ function renderTypes() {
 
 function renderMoves() {
     let content = '<ul>';
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < moves.length; i++) {
         content += `<li>${moves[i]}</li>`;
     }
     content += '</ul>';
@@ -97,12 +97,14 @@ function renderPokemonDetail() {
                 <span>#${padId(id, 3)}</span>
             </div>
         </header>
-        <div id="pokemonDetail" class="d-flex align-items-center flex-column mt-3">
-            <div class="detail-image w-100 d-flex justify-content-center">
+        <div class="container-fluid mb-3">
+        <div class="row">
+        <div id="pokemonDetail" class="d-flex w-100 align-items-center flex-column mt-3">
+            <div class="detail-image d-flex justify-content-center">
                 <img class="pokemon-detail-image" src="${imageSrc}">
             </div>
             
-            <div class="additional-information w-100">
+            <div class="additional-information">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-general-tab" data-bs-toggle="pill"
@@ -147,6 +149,8 @@ function renderPokemonDetail() {
 
             </div>
             </div>
+        </div>
+        </div>
         </div>
     `;
     showModal();

@@ -22,8 +22,9 @@
             <h1 class="font-weight-bold">Pokèdex</h1>
         </header>
         <div class="d-flex flex-column gap-2">
-            <span>Search for a Pokemon by name or use it`s National Pokedèx number.</span>
-            <input type="text" placeholder="Type a Pokemon or it`s Id">
+            <span>Search for a Pokemon by name</span>
+            <input id="search" type="text" placeholder="Type a Pokemon name for example: arcanine and hit enter">
+            <span id="search-message"></span>
         </div>
         <div class="mt-4">
             <div id="pokedex"
@@ -73,6 +74,8 @@
         </div>
     </div>
 
+
+    <script src="./js/search.js"></script>
 </body>
 
 </html>

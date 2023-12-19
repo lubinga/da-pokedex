@@ -3,6 +3,10 @@ body{
     color: #82849d;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
 h1, h2, h3{
     color: #2e3057;
     font-weight: 700;
@@ -42,6 +46,11 @@ ul{
 .pkm-overlay{
     background-color: rgb(255, 255, 255);
     min-height: 100vh;
+    top: 0;
+    bottom:0;
+    position:fixed;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 .overlay-header::after{
@@ -70,3 +79,15 @@ ul{
     background-color: unset!important;
     font-weight: bolder!important;
 }
+
+.additional-information{
+    background-color: #2e30572b;
+}
+
+@media (min-width: 768px) { 
+    #pokemonDetail{
+        flex-direction: row!important;
+        justify-content: center;
+        align-items: start!important;
+    }
+ }
