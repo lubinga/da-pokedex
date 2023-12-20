@@ -16,12 +16,20 @@ function padId(num, totalLength){
     return String(num).padStart(totalLength, '0');
 }
 
+function clearBody() {
+    moreBtn.setAttribute('disabled', '');
+    moreBtn.classList.add('d-none');
+    content.innerHTML = '';
+    message.innerHTML = '';
+}
+
 function showMessage(message, color){
     let content = document.getElementById('user-message');
-    let col = '';
+    let col = '';    
     if (color){ col = `style="color:${color};"`}
+
     let res = `<span ${col} class="w-100 text-center">`;
     res += message;
-    res += `</span>`;
+    res += `</span>`;    
     content.innerHTML = res;
 }

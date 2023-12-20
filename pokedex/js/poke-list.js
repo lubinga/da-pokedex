@@ -9,20 +9,52 @@ let moreBtn = document.getElementById('morePokemons');
 
 function getPokemonByString(input) {
     filteredPokemons = [];
-    for (let i = 0; i < currentPokemons.length; i++) {
-        if (currentPokemons[i].includes(input)) {
-            filteredPokemons.push(currentPokemons[i]);
-        }
-    }
+    filterCurrentPokemonsBySearchTerm(input);
     if (filteredPokemons == ''){
-        showNothingFound();
+        nothingFound(input);
     } else {
         showFilteredPokemons(filteredPokemons); 
     }    
 }
 
-function showNothingFound(){
-    document.getElementById('pokedex').innerHTML = '<span class="w-100 text-center">No Pokemon found.</span>';
+async function loadPokemons(boolean) {
+    clearList();
+    checkSearch(boolean);
+    moreBtn.setAttribute('disabled', '');
+    moreBtn.classList.remove('d-none');
+
+    let url = `https://pokeapi.co/api/v2/pokemon?offset=${pokemonOffset}&limit=${pokemonLimit}`;
+    let response = await fetch(url);
+    let responseAsJson = await response.json();
+
+    let allPokemons = responseAsJson['results'];
+    pokemonTotalCount = responseAsJson['count'];
+    pokemonOffset += pokemonLimit;
+
+    fetchPokemonNamesToArray(responseAsJson);
+    getSinglePokemon(allPokemons);
+    moreBtn.removeAttribute('disabled', '');
+}
+
+function checkSearch(val){
+    if (val == true){
+        pokemonOffset = 0;
+        currentPokemons = [];
+    }
+}
+
+function filterCurrentPokemonsBySearchTerm(input){
+    for (let i = 0; i < currentPokemons.length; i++) {
+        if (currentPokemons[i].includes(input)) {
+            filteredPokemons.push(currentPokemons[i]);
+        }
+    }
+}
+
+function nothingFound(input){
+    clearList();
+    const text = `No Pokemon found with <b>${input}</b>`;
+    showMessage(text, '');
 }
 
 async function showFilteredPokemons(x) {
@@ -43,31 +75,6 @@ function fetchPokemonNamesToArray(responseAsJson) {
     let pokemon = responseAsJson['results'];
     for (let i = 0; i < pokemon.length; i++) {
         currentPokemons.push(pokemon[i]['name']);
-    }
-}
-
-async function loadPokemons(val) {
-    checkSearch(val);
-    moreBtn.setAttribute('disabled', '');
-
-    let url = `https://pokeapi.co/api/v2/pokemon?offset=${pokemonOffset}&limit=${pokemonLimit}`;
-    let response = await fetch(url);
-    let responseAsJson = await response.json();
-
-    let allPokemons = responseAsJson['results'];
-    pokemonTotalCount = responseAsJson['count'];
-    pokemonOffset += pokemonLimit;
-
-    fetchPokemonNamesToArray(responseAsJson);
-    getSinglePokemon(allPokemons);
-    moreBtn.removeAttribute('disabled', '');
-}
-
-function checkSearch(val){
-    if (val == true){
-        pokemonOffset = 0;
-        content.innerHTML = '';
-        currentPokemons = [];
     }
 }
 
@@ -101,4 +108,11 @@ function renderPokemon(name, imgUrl, id) {
 
 function capitalizeFirstLetter(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+function clearList(){
+    moreBtn.setAttribute('disabled', '');
+    moreBtn.classList.add('d-none');
+    content.innerHTML = '';
+    document.getElementById('user-message').innerHTML = '';
 }

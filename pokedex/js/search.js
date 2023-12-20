@@ -24,6 +24,8 @@ async function searchPokemon(pokemonName) {
 }
 
 async function searchPokemonByApi(pokemonName) {
+  clearList();
+  showMessage();
   let nameToLower = pokemonName.toLowerCase();
   await getPokemonDetail(nameToLower);
   input.value = '';
