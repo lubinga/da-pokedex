@@ -1,6 +1,6 @@
 let inputField = document.getElementById("search");
 
-inputField.addEventListener("keypress", function (event) {
+inputField.addEventListener("keyup", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
     startSearch();
