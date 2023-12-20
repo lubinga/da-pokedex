@@ -22,15 +22,12 @@
             </h1>
         </header>
         <div class="d-flex flex-column gap-2">
-            <span>This pokedex has 1292 Pokemons listed. Check the external search
-                if you want to search for a specific pokemon.</span>
-            <div class="input-elements d-flex w-100 row">
-                <input id="search" class="flex-grow-1 col-xs-12 col-sm-9" type="text" placeholder="Type a Pokemon name and hit enter">
-                <button class="col-xs-12 col-sm-3" onclick="startSearch()">Find Pokemon</button>
-            </div>
+            <span>Search for a Pokemon by name</span>            
+            <input id="search" type="text" placeholder="Type a Pokemon name and hit enter">
+
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="searchSwitch">
-                <label class="form-check-label" for="flexSwitchCheckDefault">External Pokemon search by name</label>
+                <label class="form-check-label" for="flexSwitchCheckDefault">Enable external search. Type full name like: Arcanine</label>
             </div>
 
             <span id="user-message" class="d-flex justify-content-center mt-3"></span>
@@ -46,10 +43,12 @@
             <button id="morePokemons" onclick="loadPokemons()">More Pokemons</button>
         </div>
 
-        <div id="modal" class="pkm-overlay container-fluid position-fixed fixed-top d-none">
+        <div id="modal" class="pkm-overlay container-fluid position-fixed fixed-top d-none">            
         </div>
     </div>
+
     <footer class="w-100 d-flex justify-content-center pb-2">2023 Hannes Pirhofer</footer>
+
     <script src="./js/search.js"></script>
     <script src="./bootstrap.min.js"></script>
     <script src="./js/script.js"></script>

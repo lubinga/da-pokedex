@@ -1,33 +1,58 @@
-let input = document.getElementById("search");
-let message = document.getElementById("search-message");
-let searchSwitch = document.getElementById('searchSwitch');
+let inputField = document.getElementById("search");
 
-input.addEventListener("keypress", function (event) {
+inputField.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
-    searchPokemon(input.value);
+    startSearch();
   }
 });
 
+function startSearch() {
+  const inputValue = inputField.value;
+  const input = inputValue.toLowerCase();
+  clearBody();
+  validateInput(input);
+}
 
-async function searchPokemon(pokemonName) {
-  document.getElementById('morePokemons').setAttribute('disabled', '');
-  if (searchSwitch.checked === true) { //Get pokemon from server
-    searchPokemonByApi(pokemonName);
-  } else { // search pokemon from loaded list
-    if (input.value == '') {
-      await loadPokemons(true);
+function clearBody() {
+  content.innerHTML = '';
+  message.innerHTML = '';
+  moreBtn.classList.add('d-none');
+}
+
+function validateInput(input) {
+  if (!input == '') {
+    if (searchSwitch.checked == true){
+      showExternalFilteredPokemons(input); // Filter external Pokemon
     } else {
-      await getPokemonByString(pokemonName);
+      getPokemonByString(input); // Filter lokal Pokemon
     }    
+  } else {
+    pokemonOffset = 0;
+    searchSwitch.checked = false;
+    currentPokemons = [];
+    loadPokemons(); // Just load the list with Offset 0 and Limit provided
+    moreBtn.classList.remove('d-none');
   }
 }
 
-async function searchPokemonByApi(pokemonName) {
-  clearList();
-  showMessage();
-  let nameToLower = pokemonName.toLowerCase();
-  await getPokemonDetail(nameToLower);
-  input.value = '';
+function getPokemonByString(input) {
+  filteredPokemons = [];
+  filterCurrentPokemonsBySearchTerm(input);
+  if (filteredPokemons == '') {
+      showMessage('No Pokemon found locally. Try the external search.', 'red');
+  } else {
+      showFilteredPokemons(filteredPokemons);
+  }
 }
+
+function filterCurrentPokemonsBySearchTerm(input) {
+  for (let i = 0; i < currentPokemons.length; i++) {
+      if (currentPokemons[i].includes(input)) {
+          filteredPokemons.push(currentPokemons[i]);
+      }      
+  }
+  pokemonOffset = 0;
+}
+
 

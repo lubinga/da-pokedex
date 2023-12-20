@@ -1,98 +1,56 @@
+// MAIN Script
+
 let currentPokemons = [];
 let filteredPokemons = [];
-let pokemonTotalCount = 0;
 let pokemonOffset = 0;
-let pokemonLimit = 20;
+let pokemonLimit = 10;
 
 let content = document.getElementById('pokedex');
 let moreBtn = document.getElementById('morePokemons');
+let message = document.getElementById('user-message');
 
-function getPokemonByString(input) {
-    filteredPokemons = [];
-    filterCurrentPokemonsBySearchTerm(input);
-    if (filteredPokemons == ''){
-        nothingFound(input);
-    } else {
-        showFilteredPokemons(filteredPokemons); 
-    }    
-}
 
-async function loadPokemons(boolean) {
-    clearList();
-    checkSearch(boolean);
+
+async function loadPokemons() {
     moreBtn.setAttribute('disabled', '');
-    moreBtn.classList.remove('d-none');
+    inputField.setAttribute('disabled', '');
 
     let url = `https://pokeapi.co/api/v2/pokemon?offset=${pokemonOffset}&limit=${pokemonLimit}`;
     let response = await fetch(url);
     let responseAsJson = await response.json();
 
     let allPokemons = responseAsJson['results'];
-    pokemonTotalCount = responseAsJson['count'];
     pokemonOffset += pokemonLimit;
 
-    fetchPokemonNamesToArray(responseAsJson);
-    getSinglePokemon(allPokemons);
-    moreBtn.removeAttribute('disabled', '');
+    updateCurrentPokemons(responseAsJson);
+    await getSinglePokemonUrl(allPokemons);
+
+    moreBtn.removeAttribute('disabled', '');    
+    inputField.removeAttribute('disabled', '');
 }
 
-function checkSearch(val){
-    if (val == true){
-        pokemonOffset = 0;
-        currentPokemons = [];
-    }
-}
-
-function filterCurrentPokemonsBySearchTerm(input){
-    for (let i = 0; i < currentPokemons.length; i++) {
-        if (currentPokemons[i].includes(input)) {
-            filteredPokemons.push(currentPokemons[i]);
-        }
-    }
-}
-
-function nothingFound(input){
-    clearList();
-    const text = `No Pokemon found with <b>${input}</b>`;
-    showMessage(text, '');
-}
-
-async function showFilteredPokemons(x) {
-    content.innerHTML = '';
-    for (let i = 0; i < x.length; i++) {
-        let url = `https://pokeapi.co/api/v2/pokemon/${x[i]}`;
-        let response = await fetch(url);
-        let responseAsJson = await response.json();
-        const name = responseAsJson['name'];
-        const imgUrl = responseAsJson['sprites']['other']['official-artwork']['front_shiny'];
-        const id = responseAsJson['id'];
-        renderPokemon(name, imgUrl, id);
-        document.getElementById('morePokemons').setAttribute('disabled', '');
-    }
-}
-
-function fetchPokemonNamesToArray(responseAsJson) {
+function updateCurrentPokemons(responseAsJson) {
     let pokemon = responseAsJson['results'];
     for (let i = 0; i < pokemon.length; i++) {
         currentPokemons.push(pokemon[i]['name']);
     }
 }
 
-async function loadPokemonDetail(pokemonUrl) {
-    let response = await fetch(pokemonUrl);
+async function getSinglePokemonUrl(allPokemons) {
+    for (let i = 0; i < allPokemons.length; i++) {
+        const url = allPokemons[i]['url'];
+        await fetchPokemonDetail(url);
+    }
+}
+
+async function fetchPokemonDetail(url) {
+    let response = await fetch(url);
     let responseAsJson = await response.json();
 
     const name = responseAsJson['name'];
     const imgUrl = responseAsJson['sprites']['other']['official-artwork']['front_shiny'];
     const id = responseAsJson['id'];
     renderPokemon(name, imgUrl, id);
-}
-
-async function getSinglePokemon(allPokemons) {
-    for (let i = 0; i < allPokemons.length; i++) {
-        const url = allPokemons[i]['url'];
-        await loadPokemonDetail(url);
-    }
 }
 
 function renderPokemon(name, imgUrl, id) {
@@ -110,9 +68,37 @@ function capitalizeFirstLetter(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
-function clearList(){
-    moreBtn.setAttribute('disabled', '');
-    moreBtn.classList.add('d-none');
-    content.innerHTML = '';
-    document.getElementById('user-message').innerHTML = '';
+
+async function showFilteredPokemons(x) {
+    for (let i = 0; i < x.length; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${x[i]}`;
+        let response = await fetch(url);
+        showFilteredPokemon(response);
+    }
 }
+
+// Checks external API for a Pokemon
+async function showExternalFilteredPokemons(x) {
+    showMessage('Trying to fetch pokemon.', '');
+    let name = x.toLowerCase();
+    let url = `https://pokeapi.co/api/v2/pokemon/${name}`;
+    let response = await fetch(url);
+    if (response.ok == false) {
+        clearBody();
+        showMessage('We couldn\`t find that Pokemon. Try again', 'red');
+    } else {
+        clearBody();
+        showFilteredPokemon(response);
+    }
+}
+
+async function showFilteredPokemon(response) {
+    const responseAsJson = await response.json();
+    const name = responseAsJson['name'];
+    const imgUrl = responseAsJson['sprites']['other']['official-artwork']['front_shiny'];
+    const id = responseAsJson['id'];
+    renderPokemon(name, imgUrl, id);
+    document.getElementById('morePokemons').setAttribute('disabled', '');
+}
+
+

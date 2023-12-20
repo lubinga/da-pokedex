@@ -19,6 +19,7 @@ ul{
 
 .pokedex-container{
     padding: 32px;
+    min-height: 100vh;
 }
 
 .header-image{

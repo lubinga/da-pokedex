@@ -1,5 +1,3 @@
-//This is only to render detail view
-
 let id = null;
 let imageSrc = '';
 let pokemonName = '';
@@ -12,15 +10,7 @@ let height = null;
 async function getPokemonDetail(pokemonName) {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
     try {
-        await getPokemonByName(url);
-    } catch (error) {        
-        const text = 'Error. we couldn\`t find that Pokemon.<br> Please try again.';
-        showMessage(text, 'red');
-    }
-}
-
-async function getPokemonByName(url){
-    let response = await fetch(url);
+        let response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
@@ -30,6 +20,10 @@ async function getPokemonByName(url){
         collectMoves(responseAsJson);
         collectOther(responseAsJson);
         renderPokemonDetail();
+    } catch (error) {        
+        const text = 'Error. we couldn\`t find that Pokemon.';
+        showMessage(text, 'red');
+    }
 }
 
 function collectAbilities(responseAsJson) {
@@ -117,7 +111,8 @@ function renderDetailBody() {
     <div id="pokemonDetail" class="d-flex w-100 align-items-center flex-column mt-3">
         <div class="detail-image d-flex justify-content-center">
             <img class="pokemon-detail-image" src="${imageSrc}">
-        </div>        
+        </div>
+        
         <div class="additional-information">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -141,6 +136,7 @@ function renderDetailBody() {
                         aria-selected="false">Moves</button>
                 </li>
             </ul>
+
             <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-general" role="tabpanel"
                 aria-labelledby="pills-general-tab">
@@ -150,6 +146,7 @@ function renderDetailBody() {
                     <li><b>Base Experience: </b>${baseExperience}</li>
                 </ul>
             </div>
+
             <div class="tab-pane fade" id="pills-abilities" role="tabpanel" aria-labelledby="pills-abilities-tab">
                 ${renderAbilities()}</div>
 
@@ -158,6 +155,7 @@ function renderDetailBody() {
 
             <div class="tab-pane fade" id="pills-moves" role="tabpanel" aria-labelledby="pills-moves-tab">
             ${renderMoves()}</div>
+
         </div>
         </div>
     </div>
